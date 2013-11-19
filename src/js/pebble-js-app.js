@@ -1,7 +1,7 @@
 
 var aq = {
 	"api_key" : "47E454ED-86CD-436B-86F2-7431AF8C4BC2",
-	"configureUrl" : "http://eclipsemac/configair/index.html",
+	"configureUrl" : "http://spangborn.github.io/pebble-air-quality/index.html",
 	"distance" : localStorage.getItem("distance"),
 	"endpoint" : "http://www.airnowapi.org/aq/observation/latLong/current/?format=application/json",
 	"locationOptions" : {
@@ -135,8 +135,8 @@ Pebble.addEventListener("webviewclosed",
     	var configuration = JSON.parse(e.response);
     	console.log("Configuration window returned: " + JSON.stringify(configuration));
     	
-    	console.log("Distance: " + configuration.plexServer);
-    	localStorage.setItem("distance", configuration.plexServer);  
+    	console.log("Distance: " + configuration.distance);
+    	localStorage.setItem("distance", configuration.distance);  
 
 		aq.distance = configuration.distance;
 	}
