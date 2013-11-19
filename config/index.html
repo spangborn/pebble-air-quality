@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>pebble-air-quality config</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	
+	<link href="css/bootstrap.min.css" rel="stylesheet">
+	<link href="css/bootstrap-theme.min.css" rel="stylesheet">
+
+	<script type="text/javascript" src="js/jquery.min.js"></script>
+	
+</head>
+<body>
+    <div class="container">
+		<h2 class="">Configure Air Quality</h2>
+    	<form id="configure" class="form-configure well" action="#" method="POST">
+        	<div class="form-group">
+        		<label for="distance">Distance Threshold</label>
+        		<input type="text" id="distance" name="distance" class="form-control" placeholder="20"/>
+			</div>	
+			<p class="help-block">Enter a distance in miles around your location to check.</p>
+			
+			<br/>
+        	<input class="btn btn-lg btn-primary btn-block" id="save" type="submit" value="Save"/>
+
+      </form>
+    </div>
+    <div class="footer container">
+    	<p><a href="http://github.com/spangborn/pebble-air-quality">Air Quality</a> by <a href="http://twitter.com/spangborn">Sawyer Pangborn</a></p>
+    </div>
+	<script type="text/javascript">
+		$().ready(function () {
+			if (!localStorage.getItem("distance")) {
+				localStorage.setItem("distance", "20");
+			}
+			$("#distance").val(localStorage.getItem("distance"));
+
+			$("#configure").submit(function(e) {
+				var d = $("#distance").val();
+				
+
+				var j = {
+					plexServer : d
+				};
+
+	    		localStorage.setItem("distance", d);
+
+				window.location.href = "pebblejs://close#" + JSON.stringify(j);
+
+				e.preventDefault();
+			});	
+		});
+
+</script>
+</body>
+</html>
