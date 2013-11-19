@@ -116,8 +116,8 @@ static void window_load(Window *window) {
   Tuplet initial_values[] = {
     TupletInteger(AIR_QUALITY_ICON_KEY, (uint8_t) 0),
     TupletCString(AIR_QUALITY_AQI_KEY, "0"),
-    TupletCString(AIR_QUALITY_AQI_LEVEL_KEY, "TEST"),
-    TupletCString(AIR_QUALITY_CITY_KEY, "")
+    TupletCString(AIR_QUALITY_AQI_LEVEL_KEY, ""),
+    TupletCString(AIR_QUALITY_CITY_KEY, "Loading...")
     
   };
 

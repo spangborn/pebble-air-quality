@@ -86,9 +86,10 @@ aq.getData = function (lat,lon) {
 					}
 		  		} else {
 		    		Pebble.sendAppMessage({
-		    			"city" : "No Data",
-		    			"aqi" : 0,
-		    			"icon" : 0
+		    			"city" : "Available",
+		    			"aqi" : "",
+		    			"aqiLevel" : "No Data",
+		    			"icon" : 5
 		    		});
 		  		}
 			}
@@ -139,6 +140,7 @@ Pebble.addEventListener("webviewclosed",
     	localStorage.setItem("distance", configuration.distance);  
 
 		aq.distance = configuration.distance;
+		window.navigator.geolocation.getCurrentPosition(aq.locationSuccess, aq.locationError, aq.locationOptions);
 	}
   }
 );
