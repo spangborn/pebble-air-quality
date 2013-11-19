@@ -39,13 +39,13 @@
 				var d = $("#distance").val();
 				
 
-				var j = {
+				var jsonObject = {
 					"distance" : d
 				};
 
 	    		localStorage.setItem("distance", d);
 
-				window.location.href = "pebblejs://close#" + JSON.stringify(j);
+				window.location.href = "pebblejs://close#" + JSON.stringify(jsonObject);
 
 				e.preventDefault();
 			});	
