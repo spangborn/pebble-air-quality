@@ -23,38 +23,6 @@ if (!aq.distance) aq.distance = "20";
 	301 to 500  Hazardous 						Maroon
  */
 
-aq.getIconFromAQI = function (aqi) {
-  if (aqi <= 50) {
-    return 0;
-  } else if (aqi <= 100) {
-    return 1;
-  } else if (aqi <= 150) {
-    return 2;
-  } else if (aqi <= 200) {
-  	return 3;
-  } else if (aqi <= 300) {
-  	return 4;
-  } else {
-  	return 5;
-  }
-};
-
-aq.getLevelFromAQI = function (aqi) {
-  if (aqi <= 50) {
-    return "Good";
-  } else if (aqi <= 100) {
-    return "Moderate";
-  } else if (aqi <= 150) {
-    return "Unhealthy for Sensitive";
-  } else if (aqi <= 200) {
-  	return "Unhealthy";
-  } else if (aqi <= 300) {
-  	return "Very Unhealthy";
-  } else {
-  	return "Hazardous";
-  }
-};
-
 aq.getData = function (lat,lon) {
 	var url = aq.endpoint + "&distance=" + aq.distance + "&API_KEY=" + aq.api_key + "&latitude=" + lat + "&longitude=" + lon;
 	var aqi = 101;
@@ -68,28 +36,37 @@ aq.getData = function (lat,lon) {
 				console.log(req.responseText);
 				response = JSON.parse(req.responseText);
 				var temperature, icon, city;
-				if (response && response.length > 0) {
-					for (i=0;i<response.length;i++) {
-						if (response[i].ParameterName == "PM2.5") {
-							var aqiResult = response[i];
-							var msg = {
-				        		"icon"	: aq.getIconFromAQI(aqiResult.AQI),
-								"aqi"	: "PM2.5 " + aqiResult.AQI,
-								"aqiLevel" : aq.getLevelFromAQI(aqiResult.AQI),
-								"city"	: aqiResult.ReportingArea
-				        	};
-				        	console.log(JSON.stringify(msg));
-							Pebble.sendAppMessage(msg, function(){}, function(e) {
-								console.log("Unable to deliver message with transactionId=" + e.data.transactionId + " Error is: " + e.error.message);
-							});
-				    	}					
-					}
+				if (response && response.length > 1) {
+					
+					var msg = {};
+					var aqiResult = response[0];
+					msg.pm25_icon = parseInt(aqiResult.Category.Number) - 1;
+					msg.pm25_aqi = "PM2.5 " + aqiResult.AQI;
+					msg.pm25_aqiLevel = aqiResult.Category.Name;
+					msg.city = aqiResult.ReportingArea;
+					Pebble.sendAppMessage(msg);	
+
+					console.log(JSON.stringify(msg));
+				    
+				    msg = {};
+		    		aqiResult = response[1];
+		    		msg.o3_icon = parseInt(aqiResult.Category.Number) - 1;
+					msg.o3_aqi = "O3 " + aqiResult.AQI;
+					msg.o3_aqiLevel = aqiResult.Category.Name;
+					msg.city = aqiResult.ReportingArea;
+				    Pebble.sendAppMessage(msg);
+
+					console.log(JSON.stringify(msg));
+
 		  		} else {
 		    		Pebble.sendAppMessage({
-		    			"city" : "Available",
-		    			"aqi" : "",
-		    			"aqiLevel" : "No Data",
-		    			"icon" : 5
+		    			"city" : "",
+		    			"pm25_aqi" : "",
+		    			"pm25_aqiLevel" : "No Data",
+		    			"pm25_icon" : 5,
+		    			"o3_aqi": "",
+		    			"o3_aqiLevel" : "",
+		    			"o3_icon": 5
 		    		});
 		  		}
 			}
@@ -107,8 +84,7 @@ aq.locationSuccess = function (pos) {
 aq.locationError = function (err) {
   console.warn('location error (' + err.code + '): ' + err.message);
   Pebble.sendAppMessage({
-    "city":"Loc Unavailable",
-    "aqi":"N/A"
+    "city":"Loc Unavailable"
   });
 }
 
