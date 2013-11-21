@@ -7,8 +7,29 @@ var aq = {
 	"locationOptions" : {
 		"timeout": 15000,
 		"maximumAge": 60000
-	}
+	},
+	"maxAppMessageRetries" : 3,
+	"appMessageTimeout" : 3000
 };
+
+// From https://github.com/Neal/pebble-vlc-remote/blob/master/src/js/pebble-js-app.js
+aq.sendAppMessage = function(message, numTries, transactionId) {
+        numTries = numTries || 0;
+        if (numTries < aq.maxAppMessageRetries) {
+                numTries++;
+                console.log('Sending AppMessage to Pebble: ' + JSON.stringify(message));
+                Pebble.sendAppMessage(
+                        message, function() {}, function(e) {
+                                console.log('Failed sending AppMessage for transactionId:' + e.data.transactionId + '. Error: ' + e.data.error.message);
+                                setTimeout(function() {
+                                        aq.sendAppMessage(message, numTries, e.data.transactionId);
+                                }, aq.appMessageTimeout);
+                        }
+                );
+        } else {
+                console.log('Failed sending AppMessage for transactionId:' + transactionId + '. Not trying again. Message: ' + JSON.stringify(message));
+        }
+}
 
 // If no localStorage found, use a default
 if (!aq.distance) aq.distance = "20";
@@ -40,33 +61,33 @@ aq.getData = function (lat,lon) {
 					
 					var msg = {};
 					var aqiResult = response[0];
-					msg.pm25_icon = parseInt(aqiResult.Category.Number) - 1;
-					msg.pm25_aqi = "PM2.5 " + aqiResult.AQI;
-					msg.pm25_aqiLevel = aqiResult.Category.Name;
-					msg.city = aqiResult.ReportingArea;
+					msg.p_i = parseInt(aqiResult.Category.Number) - 1;
+					msg.p_a = " " + aqiResult.AQI;
+					msg.p_l = aqiResult.Category.Name;
+					msg.c = aqiResult.ReportingArea;
 					Pebble.sendAppMessage(msg);	
 
 					console.log(JSON.stringify(msg));
 				    
 				    msg = {};
 		    		aqiResult = response[1];
-		    		msg.o3_icon = parseInt(aqiResult.Category.Number) - 1;
-					msg.o3_aqi = "O3 " + aqiResult.AQI;
-					msg.o3_aqiLevel = aqiResult.Category.Name;
-					msg.city = aqiResult.ReportingArea;
-				    Pebble.sendAppMessage(msg);
+		    		msg.o_i = parseInt(aqiResult.Category.Number) - 1;
+					msg.o_a = " " + aqiResult.AQI;
+					msg.o_l = aqiResult.Category.Name;
+					
+				    aq.sendAppMessage(msg);
 
 					console.log(JSON.stringify(msg));
 
 		  		} else {
-		    		Pebble.sendAppMessage({
-		    			"city" : "",
-		    			"pm25_aqi" : "",
-		    			"pm25_aqiLevel" : "No Data",
-		    			"pm25_icon" : 5,
-		    			"o3_aqi": "",
-		    			"o3_aqiLevel" : "",
-		    			"o3_icon": 5
+		    		aq.sendAppMessage({
+		    			"c" : "",
+		    			"p_a" : "",
+		    			"p_l" : "No Data",
+		    			"p_i" : 5,
+		    			"o_a": "",
+		    			"o_l" : "",
+		    			"o_i": 5
 		    		});
 		  		}
 			}
@@ -83,8 +104,8 @@ aq.locationSuccess = function (pos) {
 
 aq.locationError = function (err) {
   console.warn('location error (' + err.code + '): ' + err.message);
-  Pebble.sendAppMessage({
-    "city":"Loc Unavailable"
+  aq.sendAppMessage({
+    "c":"Loc Unavailable"
   });
 }
 
