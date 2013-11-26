@@ -89,48 +89,30 @@ static void sync_error_callback(DictionaryResult dict_error, AppMessageResult ap
 
 static void sync_tuple_changed_callback(const uint32_t key, const Tuple* new_tuple, const Tuple* old_tuple, void* context) {
     switch (key) {
-    // case AIR_QUALITY_PM25_ICON_KEY:
-    //   //APP_LOG(APP_LOG_LEVEL_DEBUG, "ICON: %lu", ( unsigned long )new_tuple->value->uint8 );
-    //   if (pm25_icon_bitmap) {
-    //     gbitmap_destroy(pm25_icon_bitmap);
-    //   }
-    //   pm25_icon_bitmap = gbitmap_create_with_resource(AIR_QUALITY_ICONS[new_tuple->value->uint8]);
-    //   bitmap_layer_set_bitmap(pm25_icon_layer, pm25_icon_bitmap);
-    //   break;
+      case AIR_QUALITY_PM25_AQI_KEY:
+        //APP_LOG(APP_LOG_LEVEL_DEBUG, "AQI: %s", new_tuple->value->cstring );
+        // App Sync keeps new_tuple in sync_buffer, so we may use it directly
+        text_layer_set_text(pm25_aqi_layer, new_tuple->value->cstring);
+        break;
 
-    // case AIR_QUALITY_O3_ICON_KEY:
-    //   //APP_LOG(APP_LOG_LEVEL_DEBUG, "ICON: %lu", ( unsigned long )new_tuple->value->uint8 );
-    //   if (o3_icon_bitmap) {
-    //     gbitmap_destroy(o3_icon_bitmap);
-    //   }
-    //   o3_icon_bitmap = gbitmap_create_with_resource(AIR_QUALITY_ICONS[new_tuple->value->uint8]);
-    //   bitmap_layer_set_bitmap(o3_icon_layer, o3_icon_bitmap);
-    //   break;
+      case AIR_QUALITY_PM25_AQI_LEVEL_KEY:
+        text_layer_set_text(pm25_level_layer, new_tuple->value->cstring);
+        break;
 
-    case AIR_QUALITY_PM25_AQI_KEY:
-      //APP_LOG(APP_LOG_LEVEL_DEBUG, "AQI: %s", new_tuple->value->cstring );
-      // App Sync keeps new_tuple in sync_buffer, so we may use it directly
-      text_layer_set_text(pm25_aqi_layer, new_tuple->value->cstring);
-      break;
+      case AIR_QUALITY_O3_AQI_KEY:
+        //APP_LOG(APP_LOG_LEVEL_DEBUG, "AQI: %s", new_tuple->value->cstring );
+        // App Sync keeps new_tuple in sync_buffer, so we may use it directly
+        text_layer_set_text(o3_aqi_layer, new_tuple->value->cstring);
+        break;
 
-    case AIR_QUALITY_PM25_AQI_LEVEL_KEY:
-      text_layer_set_text(pm25_level_layer, new_tuple->value->cstring);
-      break;
+      case AIR_QUALITY_O3_AQI_LEVEL_KEY:
+        text_layer_set_text(o3_level_layer, new_tuple->value->cstring);
+        break;
 
-    case AIR_QUALITY_O3_AQI_KEY:
-      //APP_LOG(APP_LOG_LEVEL_DEBUG, "AQI: %s", new_tuple->value->cstring );
-      // App Sync keeps new_tuple in sync_buffer, so we may use it directly
-      text_layer_set_text(o3_aqi_layer, new_tuple->value->cstring);
-      break;
-
-    case AIR_QUALITY_O3_AQI_LEVEL_KEY:
-      text_layer_set_text(o3_level_layer, new_tuple->value->cstring);
-      break;
-
-    case AIR_QUALITY_CITY_KEY:
-      //APP_LOG(APP_LOG_LEVEL_DEBUG, "CITY: %s", new_tuple->value->cstring );
-      text_layer_set_text(city_layer, new_tuple->value->cstring);
-      break;
+      case AIR_QUALITY_CITY_KEY:
+        APP_LOG(APP_LOG_LEVEL_DEBUG, "CITY: %s", new_tuple->value->cstring );
+        text_layer_set_text(city_layer, new_tuple->value->cstring);
+        break;
   }
 }
 
@@ -159,11 +141,12 @@ static void window_load(Window *window) {
   bitmap_layer_set_bitmap(background_layer, background_bitmap);
   layer_add_child(window_layer, bitmap_layer_get_layer(background_layer));  
 
-  city_layer = text_layer_create(GRect(0,0,144,22));
+  city_layer = text_layer_create(GRect(0,0,144,26));
   text_layer_set_text_color(city_layer, GColorWhite);
-  text_layer_set_background_color(city_layer, GColorClear);
+  text_layer_set_background_color(city_layer, GColorBlack);
   text_layer_set_font(city_layer, fonts_get_system_font(FONT_KEY_GOTHIC_18_BOLD));
   text_layer_set_text_alignment(city_layer, GTextAlignmentCenter);
+  text_layer_set_text(city_layer, "TEST");
   layer_add_child(window_layer, text_layer_get_layer(city_layer));
  
   o3_aqi_label_layer = text_layer_create(GRect(5,20, 76,22));

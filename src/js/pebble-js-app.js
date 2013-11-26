@@ -8,7 +8,7 @@ var aq = {
 		"timeout": 15000,
 		"maximumAge": 60000
 	},
-	"maxAppMessageRetries" : 3,
+	"maxAppMessageRetries" : 6,
 	"appMessageTimeout" : 3000
 };
 
@@ -46,7 +46,7 @@ if (!aq.distance) aq.distance = "20";
 
 aq.getData = function (lat,lon) {
 	var url = aq.endpoint + "&distance=" + aq.distance + "&API_KEY=" + aq.api_key + "&latitude=" + lat + "&longitude=" + lon;
-	var aqi = 101;
+	aq.sendAppMessage({"c": "Loading..."});
 
 	console.log("URL: " + url);
 	var req = new XMLHttpRequest();
@@ -61,20 +61,21 @@ aq.getData = function (lat,lon) {
 					
 					var msg = {};
 					var aqiResult = response[0];
-					msg.p_i = parseInt(aqiResult.Category.Number) - 1;
+					//msg.p_i = parseInt(aqiResult.Category.Number) - 1;
 					msg.p_a = " " + aqiResult.AQI;
 					msg.p_l = aqiResult.Category.Name;
 					msg.c = aqiResult.ReportingArea;
-					Pebble.sendAppMessage(msg);	
+					aq.sendAppMessage(msg);	
 
 					console.log(JSON.stringify(msg));
 				    
 				    msg = {};
 		    		aqiResult = response[1];
-		    		msg.o_i = parseInt(aqiResult.Category.Number) - 1;
+		    		//msg.o_i = parseInt(aqiResult.Category.Number) - 1;
 					msg.o_a = " " + aqiResult.AQI;
 					msg.o_l = aqiResult.Category.Name;
-					
+					msg.c = aqiResult.ReportingArea;
+				
 				    aq.sendAppMessage(msg);
 
 					console.log(JSON.stringify(msg));
