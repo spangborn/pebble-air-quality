@@ -58,38 +58,29 @@ aq.getData = function (lat,lon) {
 				response = JSON.parse(req.responseText);
 				var temperature, icon, city;
 				if (response && response.length > 1) {
-					
-					var msg = {};
-					var aqiResult = response[0];
-					//msg.p_i = parseInt(aqiResult.Category.Number) - 1;
-					msg.p_a = " " + aqiResult.AQI;
-					msg.p_l = aqiResult.Category.Name;
-					msg.c = aqiResult.ReportingArea;
-					aq.sendAppMessage(msg);	
-
-					console.log(JSON.stringify(msg));
-				    
-				    msg = {};
-		    		aqiResult = response[1];
-		    		//msg.o_i = parseInt(aqiResult.Category.Number) - 1;
-					msg.o_a = " " + aqiResult.AQI;
-					msg.o_l = aqiResult.Category.Name;
-					msg.c = aqiResult.ReportingArea;
-				
-				    aq.sendAppMessage(msg);
-
-					console.log(JSON.stringify(msg));
-
-		  		} else {
-		    		aq.sendAppMessage({
-		    			"c" : "",
-		    			"p_a" : "",
-		    			"p_l" : "No Data",
-		    			"p_i" : 5,
-		    			"o_a": "",
-		    			"o_l" : "",
-		    			"o_i": 5
-		    		});
+					var data = 0;
+					for (var i = 0; i< response.length; i++) {
+						var aqiResult = response[i];
+						if (aqiResult.ParameterName == "PM2.5") {
+							var msg = {};
+							
+							msg.p_i = parseInt(aqiResult.Category.Number) - 1;
+							msg.p_a = " " + aqiResult.AQI;
+							msg.p_l = aqiResult.Category.Name;
+							msg.c = aqiResult.ReportingArea;
+							aq.sendAppMessage(msg);							
+						}
+						else if (aqiResult.ParameterName == "O3") {
+							var msg = {};
+							
+							msg.o_i = parseInt(aqiResult.Category.Number) - 1;
+							msg.o_a = " " + aqiResult.AQI;
+							msg.o_l = aqiResult.Category.Name;
+							msg.c = aqiResult.ReportingArea;
+						
+							aq.sendAppMessage(msg);
+						}	
+					}
 		  		}
 			}
 		}
@@ -98,7 +89,6 @@ aq.getData = function (lat,lon) {
 };
 
 aq.locationSuccess = function (pos) {
-  //console.log(JSON.stringify(pos));
   var coordinates = pos.coords;
   aq.getData(coordinates.latitude, coordinates.longitude);
 }
@@ -106,21 +96,16 @@ aq.locationSuccess = function (pos) {
 aq.locationError = function (err) {
   console.warn('location error (' + err.code + '): ' + err.message);
   aq.sendAppMessage({
-    "c":"Loc Unavailable"
+    "c":"Location Unavailable"
   });
 }
 
 Pebble.addEventListener("ready", function(e) {
-	//console.log("connect!" + e.ready);
 	locationWatcher = window.navigator.geolocation.getCurrentPosition(aq.locationSuccess, aq.locationError, aq.locationOptions);
-	//console.log(e.type);
 });		
 
 Pebble.addEventListener("appmessage", function(e) {
 	window.navigator.geolocation.getCurrentPosition(aq.locationSuccess, aq.locationError, aq.locationOptions);
-	//console.log(e.type);
-	//console.log(e.payload.aci);
-	//console.log("message!");
 });
 
 Pebble.addEventListener("showConfiguration", function(e) {
