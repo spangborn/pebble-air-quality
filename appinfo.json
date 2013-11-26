@@ -10,42 +10,57 @@
     "watchface": false
   },
   "appKeys": {
+<<<<<<< HEAD
     "c": 3,
     "l" : 2,
     "a": 1,
     "i": 0
+=======
+    "c": 6,
+    "o_l" : 5,
+    "o_a" : 4,
+    "o_i": 3,
+    "p_l" : 2,
+    "p_a": 1,
+    "p_i": 0
+>>>>>>> origin/o3-and-pm25
   },
   "resources": {
     "media": [
       {
         "type": "png",
+        "name": "IMAGE_BACKGROUND",
+        "file": "images/background.png"
+      },
+      {
+        "type": "png",
         "name": "IMAGE_GOOD",
-        "file": "images/air_good.png"
+        "file": "images/icons/air_good.png"
       },
       {
         "type": "png",
         "name": "IMAGE_MODERATE",
-        "file": "images/air_moderate.png"
+        "file": "images/icons/air_moderate.png"
       },
       {
         "type": "png",
         "name": "IMAGE_UNHEALTHY_FOR_SENSITIVE_GROUPS",
-        "file": "images/air_unhealthy_for_sensitive_groups.png"
+        "file": "images/icons/air_unhealthy_for_sensitive_groups.png"
       },
       {
         "type": "png",
         "name": "IMAGE_UNHEALTHY",
-        "file": "images/air_unhealthy.png"
+        "file": "images/icons/air_unhealthy.png"
       },
       {
         "type": "png",
         "name": "IMAGE_VERY_UNHEALTHY",
-        "file": "images/air_very_unhealthy.png"
+        "file": "images/icons/air_very_unhealthy.png"
       },
       {
         "type": "png",
         "name": "IMAGE_HAZARDOUS",
-        "file": "images/air_hazardous.png"
+        "file": "images/icons/air_hazardous.png"
       },
       {
         "menuIcon": true,
