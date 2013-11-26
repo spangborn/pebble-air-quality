@@ -1,73 +1,69 @@
 {
-  "uuid": "83faf32d-b225-4f10-9e41-0487b26e7e84",
-  "shortName": "Air Quality",
-  "longName": "Air Quality",
-  "companyName": "Sawyer Pangborn",
-  "versionCode": 1,
-  "versionLabel": "1.0.0",
-  "capabilities": [ "configurable", "location" ],
-  "watchapp": {
-    "watchface": false
-  },
-  "appKeys": {
-<<<<<<< HEAD
-    "c": 3,
-    "l" : 2,
-    "a": 1,
-    "i": 0
-=======
-    "c": 6,
-    "o_l" : 5,
-    "o_a" : 4,
-    "o_i": 3,
-    "p_l" : 2,
-    "p_a": 1,
-    "p_i": 0
->>>>>>> origin/o3-and-pm25
-  },
-  "resources": {
-    "media": [
-      {
-        "type": "png",
-        "name": "IMAGE_BACKGROUND",
-        "file": "images/background.png"
-      },
-      {
-        "type": "png",
-        "name": "IMAGE_GOOD",
-        "file": "images/icons/air_good.png"
-      },
-      {
-        "type": "png",
-        "name": "IMAGE_MODERATE",
-        "file": "images/icons/air_moderate.png"
-      },
-      {
-        "type": "png",
-        "name": "IMAGE_UNHEALTHY_FOR_SENSITIVE_GROUPS",
-        "file": "images/icons/air_unhealthy_for_sensitive_groups.png"
-      },
-      {
-        "type": "png",
-        "name": "IMAGE_UNHEALTHY",
-        "file": "images/icons/air_unhealthy.png"
-      },
-      {
-        "type": "png",
-        "name": "IMAGE_VERY_UNHEALTHY",
-        "file": "images/icons/air_very_unhealthy.png"
-      },
-      {
-        "type": "png",
-        "name": "IMAGE_HAZARDOUS",
-        "file": "images/icons/air_hazardous.png"
-      },
-      {
-        "menuIcon": true,
-        "type": "png",
-        "name": "MENU_ICON_AIRQUALITY",
-        "file": "images/menu_icon_airquality.png"
-      }
-    ]
-  }
+    "versionLabel": "1.0.0",
+    "uuid": "83faf32d-b225-4f10-9e41-0487b26e7e84",
+    "appKeys": {
+        "c": 6,
+        "p_i": 0,
+        "p_l": 2,
+        "p_a": 1,
+        "o_a": 4,
+        "o_l": 5,
+        "o_i": 3
+    },
+    "longName": "Air Quality",
+    "versionCode": 1,
+    "capabilities": [
+        "location",
+        "configurable"
+    ],
+    "shortName": "Air Quality",
+    "companyName": "Sawyer Pangborn",
+    "watchapp": {
+        "watchface": false
+    },
+    "resources": {
+        "media": [
+            {
+                "menuIcon": true,
+                "type": "png",
+                "name": "MENU_ICON_AIRQUALITY",
+                "file": "images/menu_icon_airquality.png"
+            },
+            {
+                "type": "png",
+                "name": "IMAGE_HAZARDOUS",
+                "file": "images/air_hazardous.png"
+            },
+            {
+                "type": "png",
+                "name": "IMAGE_VERY_UNHEALTHY",
+                "file": "images/air_very_unhealthy.png"
+            },
+            {
+                "type": "png",
+                "name": "IMAGE_UNHEALTHY",
+                "file": "images/air_unhealthy.png"
+            },
+            {
+                "type": "png",
+                "name": "IMAGE_UNHEALTHY_FOR_SENSITIVE_GROUPS",
+                "file": "images/air_unhealthy_for_sensitive_groups.png"
+            },
+            {
+                "type": "png",
+                "name": "IMAGE_MODERATE",
+                "file": "images/air_moderate.png"
+            },
+            {
+                "type": "png",
+                "name": "IMAGE_GOOD",
+                "file": "images/air_good.png"
+            },
+            {
+                "type": "png",
+                "name": "IMAGE_BACKGROUND",
+                "file": "images/background.png"
+            }
+        ]
+    }
 }

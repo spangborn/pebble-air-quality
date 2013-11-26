@@ -8,8 +8,9 @@ var aq = {
 		"timeout": 15000,
 		"maximumAge": 60000
 	},
-	"maxAppMessageRetries" : 6,
-	"appMessageTimeout" : 3000
+	"maxAppMessageRetries" : 3,
+	"appMessageTimeout" : 3000,
+	"displayed" : 0
 };
 
 // From https://github.com/Neal/pebble-vlc-remote/blob/master/src/js/pebble-js-app.js
@@ -57,29 +58,6 @@ aq.getData = function (lat,lon) {
 				console.log(req.responseText);
 				response = JSON.parse(req.responseText);
 				var temperature, icon, city;
-<<<<<<< HEAD
-				if (response && response.length > 0) {
-					for (i=0;i<response.length;i++) {
-						if (response[i].ParameterName == "PM2.5") {
-							var aqiResult = response[i];
-							var msg = {
-				        		"i"	: aq.getIconFromAQI(aqiResult.AQI),
-								"a"	: "PM2.5 " + aqiResult.AQI,
-								"l" : aq.getLevelFromAQI(aqiResult.AQI),
-								"c"	: aqiResult.ReportingArea
-				        	};
-				        	console.log(JSON.stringify(msg));
-							Pebble.sendAppMessage(msg);
-				    	}					
-					}
-		  		} else {
-		    		Pebble.sendAppMessage({
-		    			"c" : "Available",
-		    			"a" : "",
-		    			"l" : "No Data",
-		    			"i" : 5
-		    		});
-=======
 				if (response && response.length > 1) {
 					var data = 0;
 					for (var i = 0; i< response.length; i++) {
@@ -91,7 +69,9 @@ aq.getData = function (lat,lon) {
 							msg.p_a = " " + aqiResult.AQI;
 							msg.p_l = aqiResult.Category.Name;
 							msg.c = aqiResult.ReportingArea;
-							aq.sendAppMessage(msg);							
+							
+							aq.sendAppMessage(msg);
+							aq.displayed = 1;
 						}
 						else if (aqiResult.ParameterName == "O3") {
 							var msg = {};
@@ -102,10 +82,14 @@ aq.getData = function (lat,lon) {
 							msg.c = aqiResult.ReportingArea;
 						
 							aq.sendAppMessage(msg);
+							aq.displayed = 1;
 						}	
 					}
->>>>>>> origin/o3-and-pm25
 		  		}
+				if (aq.displayed == 0) {
+					aq.sendAppMessage({"c": "No Data"});
+					Pebble.showSimpleNotificationOnPebble("Air Quality", "Data API stated there was no data for your location. Try increasing the distance setting.");
+				}
 			}
 		}
 	};
@@ -119,14 +103,8 @@ aq.locationSuccess = function (pos) {
 
 aq.locationError = function (err) {
   console.warn('location error (' + err.code + '): ' + err.message);
-<<<<<<< HEAD
-  Pebble.sendAppMessage({
-    "c":"Loc Unavailable",
-    "a":"N/A"
-=======
   aq.sendAppMessage({
     "c":"Location Unavailable"
->>>>>>> origin/o3-and-pm25
   });
 }
 

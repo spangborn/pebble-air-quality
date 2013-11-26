@@ -80,51 +80,6 @@ static void getAppMessageResult(AppMessageResult reason){
       snprintf(reasonStr,20,"%s","OUT OF MEM");
     break;
 
-<<<<<<< HEAD
-static char reasonStr[20];
-
-static void getAppMessageResult(AppMessageResult reason){
-
-  switch(reason){
-    case APP_MSG_OK:
-      snprintf(reasonStr,20,"%s","APP_MSG_OK");
-    break;
-    case APP_MSG_SEND_TIMEOUT:
-      snprintf(reasonStr,20,"%s","SEND TIMEOUT");
-    break;
-    case APP_MSG_SEND_REJECTED:
-      snprintf(reasonStr,20,"%s","SEND REJECTED");
-    break;
-    case APP_MSG_NOT_CONNECTED:
-      snprintf(reasonStr,20,"%s","NOT CONNECTED");
-    break;
-    case APP_MSG_APP_NOT_RUNNING:
-      snprintf(reasonStr,20,"%s","NOT RUNNING");
-    break;
-    case APP_MSG_INVALID_ARGS:
-      snprintf(reasonStr,20,"%s","INVALID ARGS");
-    break;
-    case APP_MSG_BUSY:
-      snprintf(reasonStr,20,"%s","BUSY");
-    break;
-    case APP_MSG_BUFFER_OVERFLOW:
-      snprintf(reasonStr,20,"%s","BUFFER OVERFLOW");
-    break;
-    case APP_MSG_ALREADY_RELEASED:
-      snprintf(reasonStr,20,"%s","ALRDY RELEASED");
-    break;
-    case APP_MSG_CALLBACK_ALREADY_REGISTERED:
-      snprintf(reasonStr,20,"%s","CLB ALR REG");
-    break;
-    case APP_MSG_CALLBACK_NOT_REGISTERED:
-      snprintf(reasonStr,20,"%s","CLB NOT REG");
-    break;
-    case APP_MSG_OUT_OF_MEMORY:
-      snprintf(reasonStr,20,"%s","OUT OF MEM");
-    break;
-
-=======
->>>>>>> origin/o3-and-pm25
   }
 }
 static void sync_error_callback(DictionaryResult dict_error, AppMessageResult app_message_error, void *context) {
