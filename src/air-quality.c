@@ -16,7 +16,7 @@ static TextLayer *pm25_level_label_layer;
 static TextLayer *pm25_level_layer;
 
 static AppSync sync;
-static uint8_t sync_buffer[64];
+static uint8_t sync_buffer[128];
 
 enum AirQualityKey {
   AIR_QUALITY_PM25_ICON_KEY = 0,       // TUPLE_INT
@@ -146,10 +146,9 @@ static void window_load(Window *window) {
   text_layer_set_background_color(city_layer, GColorBlack);
   text_layer_set_font(city_layer, fonts_get_system_font(FONT_KEY_GOTHIC_18_BOLD));
   text_layer_set_text_alignment(city_layer, GTextAlignmentCenter);
-  text_layer_set_text(city_layer, "TEST");
   layer_add_child(window_layer, text_layer_get_layer(city_layer));
  
-  o3_aqi_label_layer = text_layer_create(GRect(5,20, 76,22));
+  o3_aqi_label_layer = text_layer_create(GRect(5,25, 76,22));
   text_layer_set_text_color(o3_aqi_label_layer, GColorBlack);
   text_layer_set_background_color(o3_aqi_label_layer, GColorClear);
   text_layer_set_font(o3_aqi_label_layer, fonts_get_system_font(FONT_KEY_GOTHIC_18_BOLD));
@@ -157,14 +156,14 @@ static void window_load(Window *window) {
   text_layer_set_text(o3_aqi_label_layer, "O3 AQI");
   layer_add_child(window_layer, text_layer_get_layer(o3_aqi_label_layer));
 
-  o3_aqi_layer = text_layer_create(GRect(89,20, 50,22));
+  o3_aqi_layer = text_layer_create(GRect(89,25, 50,22));
   text_layer_set_text_color(o3_aqi_layer, GColorBlack);
   text_layer_set_background_color(o3_aqi_layer, GColorClear);
   text_layer_set_font(o3_aqi_layer, fonts_get_system_font(FONT_KEY_GOTHIC_18));
   text_layer_set_text_alignment(o3_aqi_layer, GTextAlignmentRight);
   layer_add_child(window_layer, text_layer_get_layer(o3_aqi_layer));
 
-  o3_level_label_layer = text_layer_create(GRect(5,35, 76,22));
+  o3_level_label_layer = text_layer_create(GRect(5,40, 76,22));
   text_layer_set_text_color(o3_level_label_layer, GColorBlack);
   text_layer_set_background_color(o3_level_label_layer, GColorClear);
   text_layer_set_font(o3_level_label_layer, fonts_get_system_font(FONT_KEY_GOTHIC_18_BOLD));
@@ -172,14 +171,14 @@ static void window_load(Window *window) {
   text_layer_set_text(o3_level_label_layer, "O3 Level");
   layer_add_child(window_layer, text_layer_get_layer(o3_level_label_layer));
 
-  o3_level_layer = text_layer_create(GRect(5,50, 135,46));
+  o3_level_layer = text_layer_create(GRect(5,55, 135,46));
   text_layer_set_text_color(o3_level_layer, GColorBlack);
   text_layer_set_background_color(o3_level_layer, GColorClear);
   text_layer_set_font(o3_level_layer, fonts_get_system_font(FONT_KEY_GOTHIC_18));
   text_layer_set_text_alignment(o3_level_layer, GTextAlignmentLeft);
   layer_add_child(window_layer, text_layer_get_layer(o3_level_layer));
 
-  pm25_aqi_label_layer = text_layer_create(GRect(5, 85, 76,22));
+  pm25_aqi_label_layer = text_layer_create(GRect(5, 90, 76,22));
   text_layer_set_text_color(pm25_aqi_label_layer, GColorBlack);
   text_layer_set_background_color(pm25_aqi_label_layer, GColorClear);
   text_layer_set_font(pm25_aqi_label_layer, fonts_get_system_font(FONT_KEY_GOTHIC_18_BOLD));
@@ -187,14 +186,14 @@ static void window_load(Window *window) {
   text_layer_set_text(pm25_aqi_label_layer, "PM2.5 AQI");
   layer_add_child(window_layer, text_layer_get_layer(pm25_aqi_label_layer));
 
-  pm25_aqi_layer = text_layer_create(GRect(89,85, 50,22));
+  pm25_aqi_layer = text_layer_create(GRect(89,90, 50,22));
   text_layer_set_text_color(pm25_aqi_layer, GColorBlack);
   text_layer_set_background_color(pm25_aqi_layer, GColorClear);
   text_layer_set_font(pm25_aqi_layer, fonts_get_system_font(FONT_KEY_GOTHIC_18));
   text_layer_set_text_alignment(pm25_aqi_layer, GTextAlignmentRight);
   layer_add_child(window_layer, text_layer_get_layer(pm25_aqi_layer));
 
-  pm25_level_label_layer = text_layer_create(GRect(5,100, 90,22));
+  pm25_level_label_layer = text_layer_create(GRect(5,105, 90,22));
   text_layer_set_text_color(pm25_level_label_layer, GColorBlack);
   text_layer_set_background_color(pm25_level_label_layer, GColorClear);
   text_layer_set_font(pm25_level_label_layer, fonts_get_system_font(FONT_KEY_GOTHIC_18_BOLD));
@@ -202,7 +201,7 @@ static void window_load(Window *window) {
   text_layer_set_text(pm25_level_label_layer, "PM2.5 Level");
   layer_add_child(window_layer, text_layer_get_layer(pm25_level_label_layer));
 
-  pm25_level_layer = text_layer_create(GRect(5,115, 135,46));
+  pm25_level_layer = text_layer_create(GRect(5,120, 135,46));
   text_layer_set_text_color(pm25_level_layer, GColorBlack);
   text_layer_set_background_color(pm25_level_layer, GColorClear);
   text_layer_set_font(pm25_level_layer, fonts_get_system_font(FONT_KEY_GOTHIC_18));
@@ -252,8 +251,8 @@ static void init(void) {
     .unload = window_unload
   });
 
-  const int inbound_size = 64;
-  const int outbound_size = 64;
+  const int inbound_size = 128;
+  const int outbound_size = 128;
   app_message_open(inbound_size, outbound_size);
 
   const bool animated = true;
