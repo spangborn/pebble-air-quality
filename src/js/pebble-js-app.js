@@ -73,23 +73,21 @@ aq.getData = function (lat,lon) {
 						if (response[i].ParameterName == "PM2.5") {
 							var aqiResult = response[i];
 							var msg = {
-				        		"icon"	: aq.getIconFromAQI(aqiResult.AQI),
-								"aqi"	: "PM2.5 " + aqiResult.AQI,
-								"aqiLevel" : aq.getLevelFromAQI(aqiResult.AQI),
-								"city"	: aqiResult.ReportingArea
+				        		"i"	: aq.getIconFromAQI(aqiResult.AQI),
+								"a"	: "PM2.5 " + aqiResult.AQI,
+								"l" : aq.getLevelFromAQI(aqiResult.AQI),
+								"c"	: aqiResult.ReportingArea
 				        	};
 				        	console.log(JSON.stringify(msg));
-							Pebble.sendAppMessage(msg, function(){}, function(e) {
-								console.log("Unable to deliver message with transactionId=" + e.data.transactionId + " Error is: " + e.error.message);
-							});
+							Pebble.sendAppMessage(msg);
 				    	}					
 					}
 		  		} else {
 		    		Pebble.sendAppMessage({
-		    			"city" : "Available",
-		    			"aqi" : "",
-		    			"aqiLevel" : "No Data",
-		    			"icon" : 5
+		    			"c" : "Available",
+		    			"a" : "",
+		    			"l" : "No Data",
+		    			"i" : 5
 		    		});
 		  		}
 			}
@@ -107,8 +105,8 @@ aq.locationSuccess = function (pos) {
 aq.locationError = function (err) {
   console.warn('location error (' + err.code + '): ' + err.message);
   Pebble.sendAppMessage({
-    "city":"Loc Unavailable",
-    "aqi":"N/A"
+    "c":"Loc Unavailable",
+    "a":"N/A"
   });
 }
 

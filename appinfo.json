@@ -10,10 +10,10 @@
     "watchface": false
   },
   "appKeys": {
-    "city": 3,
-    "aqiLevel" : 2,
-    "aqi": 1,
-    "icon": 0
+    "c": 3,
+    "l" : 2,
+    "a": 1,
+    "i": 0
   },
   "resources": {
     "media": [

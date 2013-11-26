@@ -9,7 +9,7 @@ static BitmapLayer *icon_layer;
 static GBitmap *icon_bitmap = NULL;
 
 static AppSync sync;
-static uint8_t sync_buffer[64];
+static uint8_t sync_buffer[128];
 
 enum AirQualityKey {
   AIR_QUALITY_ICON_KEY = 0,       // TUPLE_INT
@@ -28,18 +28,53 @@ static const uint32_t AIR_QUALITY_ICONS[] = {
 };
 
 
-/*
-Air Quality Index (AQI) Values  Levels of Health Concern  Colors
-0 to 50 Good  Green
-51 to 100 Moderate  Yellow
-101 to 150  Unhealthy for Sensitive Groups  Orange
-151 to 200  Unhealthy Red
-201 to 300  Very Unhealthy  Purple
-301 to 500  Hazardous Maroon
- */
+static char reasonStr[20];
 
+static void getAppMessageResult(AppMessageResult reason){
+
+  switch(reason){
+    case APP_MSG_OK:
+      snprintf(reasonStr,20,"%s","APP_MSG_OK");
+    break;
+    case APP_MSG_SEND_TIMEOUT:
+      snprintf(reasonStr,20,"%s","SEND TIMEOUT");
+    break;
+    case APP_MSG_SEND_REJECTED:
+      snprintf(reasonStr,20,"%s","SEND REJECTED");
+    break;
+    case APP_MSG_NOT_CONNECTED:
+      snprintf(reasonStr,20,"%s","NOT CONNECTED");
+    break;
+    case APP_MSG_APP_NOT_RUNNING:
+      snprintf(reasonStr,20,"%s","NOT RUNNING");
+    break;
+    case APP_MSG_INVALID_ARGS:
+      snprintf(reasonStr,20,"%s","INVALID ARGS");
+    break;
+    case APP_MSG_BUSY:
+      snprintf(reasonStr,20,"%s","BUSY");
+    break;
+    case APP_MSG_BUFFER_OVERFLOW:
+      snprintf(reasonStr,20,"%s","BUFFER OVERFLOW");
+    break;
+    case APP_MSG_ALREADY_RELEASED:
+      snprintf(reasonStr,20,"%s","ALRDY RELEASED");
+    break;
+    case APP_MSG_CALLBACK_ALREADY_REGISTERED:
+      snprintf(reasonStr,20,"%s","CLB ALR REG");
+    break;
+    case APP_MSG_CALLBACK_NOT_REGISTERED:
+      snprintf(reasonStr,20,"%s","CLB NOT REG");
+    break;
+    case APP_MSG_OUT_OF_MEMORY:
+      snprintf(reasonStr,20,"%s","OUT OF MEM");
+    break;
+
+  }
+}
 static void sync_error_callback(DictionaryResult dict_error, AppMessageResult app_message_error, void *context) {
-  APP_LOG(APP_LOG_LEVEL_DEBUG, "App Message Sync Error: %d", app_message_error);
+  getAppMessageResult(app_message_error);
+  APP_LOG(APP_LOG_LEVEL_DEBUG, "App Message Sync Error: %s", reasonStr);
 }
 
 static void sync_tuple_changed_callback(const uint32_t key, const Tuple* new_tuple, const Tuple* old_tuple, void* context) {
@@ -148,8 +183,8 @@ static void init(void) {
     .unload = window_unload
   });
 
-  const int inbound_size = 64;
-  const int outbound_size = 64;
+  const int inbound_size = 128;
+  const int outbound_size = 128;
   app_message_open(inbound_size, outbound_size);
 
   const bool animated = true;
