@@ -1,9 +1,8 @@
 
 var aq = {
-	"api_key" : "47E454ED-86CD-436B-86F2-7431AF8C4BC2",
 	"configureUrl" : "http://spangborn.github.io/pebble-air-quality/index.html",
 	"distance" : localStorage.getItem("distance"),
-	"endpoint" : "http://www.airnowapi.org/aq/observation/latLong/current/?format=application/json",
+	"endpoint" : "http://pebble-air-quality-59651.usw1.actionbox.io:3000/",
 	"locationOptions" : {
 		"timeout": 15000,
 		"maximumAge": 60000
@@ -46,7 +45,7 @@ if (!aq.distance) aq.distance = "20";
  */
 
 aq.getData = function (lat,lon) {
-	var url = aq.endpoint + "&distance=" + aq.distance + "&API_KEY=" + aq.api_key + "&latitude=" + lat + "&longitude=" + lon;
+	var url = aq.endpoint + "?distance=" + aq.distance + "&latitude=" + lat + "&longitude=" + lon;
 	aq.sendAppMessage({"c": "Loading..."});
 
 	console.log("URL: " + url);
