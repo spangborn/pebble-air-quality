@@ -1,9 +1,7 @@
-
 var aq = {
-	"api_key" : "47E454ED-86CD-436B-86F2-7431AF8C4BC2",
 	"configureUrl" : "http://spangborn.github.io/pebble-air-quality/index.html",
 	"distance" : localStorage.getItem("distance"),
-	"endpoint" : "http://www.airnowapi.org/aq/observation/latLong/current/?format=application/json",
+	"endpoint" : "http://pebble-air-quality.herokuapp.com/",
 	"locationOptions" : {
 		"timeout": 15000,
 		"maximumAge": 60000
