@@ -1,7 +1,11 @@
 var aq = {
 	"configureUrl" : "http://spangborn.github.io/pebble-air-quality/index.html",
 	"distance" : localStorage.getItem("distance"),
+<<<<<<< HEAD
 	"endpoint" : "http://pebble-air-quality.herokuapp.com/",
+=======
+	"endpoint" : "http://pebble-air-quality-59651.usw1.actionbox.io:3000/",
+>>>>>>> 3477c1720267c6d40f87ae714ce99d835f07cd3d
 	"locationOptions" : {
 		"timeout": 15000,
 		"maximumAge": 60000
@@ -44,7 +48,7 @@ if (!aq.distance) aq.distance = "20";
  */
 
 aq.getData = function (lat,lon) {
-	var url = aq.endpoint + "&distance=" + aq.distance + "&API_KEY=" + aq.api_key + "&latitude=" + lat + "&longitude=" + lon;
+	var url = aq.endpoint + "?distance=" + aq.distance + "&latitude=" + lat + "&longitude=" + lon;
 	aq.sendAppMessage({"c": "Loading..."});
 
 	console.log("URL: " + url);
