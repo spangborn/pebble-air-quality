@@ -219,10 +219,9 @@ static void window_load(Window *window) {
     
   };
 
-  app_sync_init(&sync, sync_buffer, sizeof(sync_buffer), initial_values, ARRAY_LENGTH(initial_values),
-     sync_tuple_changed_callback, sync_error_callback, NULL);
+  app_sync_init(&sync, sync_buffer, sizeof(sync_buffer), initial_values, ARRAY_LENGTH(initial_values), sync_tuple_changed_callback, sync_error_callback, NULL);
 
-  send_cmd();
+  //send_cmd();
 }
 
 static void window_unload(Window *window) {
